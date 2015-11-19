@@ -8,5 +8,5 @@ Uses descriptive activity names to name the activities in the data set
 Appropriately labels the data set with descriptive variable names. 
 From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
 #2. CodeBook.md 
-Code book that describes the variables, the data, and work that you performed to clean up the data.
+Code book that describes the variables, the data, and work performed to clean up the data.
 
