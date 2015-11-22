@@ -56,22 +56,13 @@ dataTable<- subset(dataTable,select=FeaturesMeanStd)
 #enter name of activity into dataTable
 dataTable <- merge(activityLabels, dataTable , by="activityNum", all.x=TRUE)
 dataTable$activityName <- as.character(dataTable$activityName)
+#print merged dataset
+write.table(dataTable, "mergedData.txt", row.names = F)
 
-# create dataTable with variable means sorted by subject and Activity
+# Create a tidy data set with variable means sorted by subject and Activity
 dataTable$activityName <- as.character(dataTable$activityName)
 dataAggr<- aggregate(. ~ subject - activityName, data = dataTable, mean)
 dataTable<- tbl_df(arrange(dataAggr,subject,activityName))
-
-#Appropriately labels the data set with descriptive variable names.
-
-names(dataTable)<-gsub("std()", "SD", names(dataTable))
-names(dataTable)<-gsub("mean()", "MEAN", names(dataTable))
-names(dataTable)<-gsub("^t", "time", names(dataTable))
-names(dataTable)<-gsub("^f", "frequency", names(dataTable))
-names(dataTable)<-gsub("Acc", "Accelerometer", names(dataTable))
-names(dataTable)<-gsub("Gyro", "Gyroscope", names(dataTable))
-names(dataTable)<-gsub("Mag", "Magnitude", names(dataTable))
-names(dataTable)<-gsub("BodyBody", "Body", names(dataTable))
 
 # Create a tidy data set 
 write.table(dataTable, "finalData.txt", row.name=FALSE)
