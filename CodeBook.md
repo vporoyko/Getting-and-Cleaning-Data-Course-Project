@@ -110,7 +110,7 @@ DataTest <‐ tbl_df(read.table(file.path(Path, "test" , "X_test.txt" )))
 
 ```
 
-#1. Merge the training and the test sets.
+#1. Merge the training and the test sets. Name variables according to feature.
 
 ```{r}
 #merge the training and the test sets by row
@@ -120,7 +120,7 @@ allActivityData<‐ rbind(ActivityTrain, ActivityTest)
 setnames(allActivityData, "V1", "activityNum")
 #combine the DATA training and test files
 dataTable <‐ rbind(DataTrain, DataTest)
-# name variables according to feature 
+# name variables descriptiley according to feature name 
 dataFeatures <‐ tbl_df(read.table(file.path(Path, "features.txt")))
 setnames(dataFeatures, names(dataFeatures), c("featureNum", "featureName"))
 colnames(dataTable) <‐ dataFeatures$featureName
@@ -146,31 +146,18 @@ dataTable<‐ subset(dataTable,select=FeaturesMeanStd)
 ##enter name of activity into dataTable
 dataTable <‐ merge(activityLabels, dataTable , by="activityNum", all.x=TRUE)
 dataTable$activityName <‐ as.character(dataTable$activityName)
-## create dataTable with variable means sorted by subject and Activity
+#print merged dataset
+write.table(dataTable, "mergedData.txt", row.names = F)
+```
+
+#4. Create a tidy data set using the average of each variable
+#for each activity and each subject.
+```{r}
+## Create a tidy data set with variable means sorted by Subject and Activity
 dataTable$activityName <‐ as.character(dataTable$activityName)
 dataAggr<‐ aggregate(. ~ subject ‐ activityName, data = dataTable, mean)
 dataTable<‐ tbl_df(arrange(dataAggr,subject,activityName))
-
-```
-
-#4. Appropriately labels the data set with descriptive
-#variable names.
-
-```{r}
-names(dataTable)<‐gsub("std()", "SD", names(dataTable))
-names(dataTable)<‐gsub("mean()", "MEAN", names(dataTable))
-names(dataTable)<‐gsub("^t", "time", names(dataTable))
-names(dataTable)<‐gsub("^f", "frequency", names(dataTable))
-names(dataTable)<‐gsub("Acc", "Accelerometer", names(dataTable))
-names(dataTable)<‐gsub("Gyro", "Gyroscope", names(dataTable))
-names(dataTable)<‐gsub("Mag", "Magnitude", names(dataTable))
-names(dataTable)<‐gsub("BodyBody", "Body", names(dataTable))
-
-```
-#5. Create a tidy data set using the average of each variable
-#for each activity and each subject.
-```{r}
-
+# Print tidy data set 
 write.table(dataTable, "finalData.txt", row.name=FALSE)
 
 ```
