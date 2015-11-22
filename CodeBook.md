@@ -150,8 +150,7 @@ dataTable$activityName <‐ as.character(dataTable$activityName)
 write.table(dataTable, "mergedData.txt", row.names = F)
 ```
 
-#4. Create a tidy data set using the average of each variable
-#for each activity and each subject.
+#4. Create a tidy data set using the average of each variable for each activity and each subject.
 ```{r}
 ## Create a tidy data set with variable means sorted by Subject and Activity
 dataTable$activityName <‐ as.character(dataTable$activityName)
